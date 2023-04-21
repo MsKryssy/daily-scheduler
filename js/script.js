@@ -1,20 +1,21 @@
-// all code that interacts with the DOM in a call to jQuery to ensure that CSS and HTML is loaded properly
+// a call to jQuery to ensure that CSS and HTML is loaded properly
 $(function () {
   // used to call all functions
   displayCurrentDateAndTime();
   pastPresentFutureTimeblock();
   savedData();
-  // save and clear buttons
+  // save buttons
   var saveBtn = $('.saveBtn');
-  var clearBtn = $('#clearBtn')
-  // save and clear button actions when clicked
+  // save button action when clicked
   saveBtn.on('click', function() {
-    localStorage.setItem($this).parent().attr('id'), $(this).sibling().eq(1).val()
-  })
-  clearBtn.on('click', function() {
-    $('textarea').val('');
-    localStorage.clear();
+    localStorage.setItem($(this).parent().attr('id'), $(this).siblings().eq(1).val())
   });
+  // stores the data in local storage in the correct time block
+  function savedData() {
+    $('.description').each(function() {
+      $(this).val(localStorage.getItem($(this).parent().attr('id')));
+    })
+  }
   // Applies time block colors based on time frame
   function pastPresentFutureTimeblock() {
     var currentHour = dayjs().hour();
@@ -29,12 +30,6 @@ $(function () {
       else if (timeSlot > currentHour) {
         $(this).addClass('future')
       }
-    })
-  }
-  // stores the data in local storage in the correct time block
-  function savedData() {
-    $('.description').each(function() {
-      $(this).val(localStorage.getItem($this).parent().attr('id'));
     })
   }
   // displays the current date in the header
